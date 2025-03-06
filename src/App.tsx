@@ -1,11 +1,13 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { Tabs } from 'antd';
+import { Header } from '@/components';
 import './App.css';
 
 function App() {
   const location = useLocation();
   return (
     <div className="app-container">
+      <Header />
       <Tabs
         activeKey={location.pathname}
         centered

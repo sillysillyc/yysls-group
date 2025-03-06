@@ -1,12 +1,6 @@
-import { create } from 'zustand';
+import { UserSliceInfo } from './types';
 
-type UserState = {
-  username: string | null;
-  login: (name: string) => void;
-  logout: () => void;
-};
-
-export const useUserStore = create<UserState>((set) => ({
+export const createUserSlice = (set: any): UserSliceInfo => ({
   username: localStorage.getItem('username'),
   login: (name) => {
     set({ username: name });
@@ -15,5 +9,5 @@ export const useUserStore = create<UserState>((set) => ({
   logout: () => {
     set({ username: null });
     localStorage.removeItem('username');
-  }
-}));
+  },
+});

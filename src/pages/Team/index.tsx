@@ -1,6 +1,6 @@
 import { Button, Card, Form, Input, Select, List, Tag, notification } from 'antd';
 import { useState } from 'react';
-import { useUserStore } from '@/stores/userStore';
+import { useAppStore } from '@/stores';
 
 const dungeonTypeMap = {
   weekly: 'weekly',
@@ -39,11 +39,11 @@ export default function TeamPage() {
   const [teams, setTeams] = useState<TeamType[]>([]);
   const [visibilityFilter, setVisibilityFilter] = useState<string>('all');
   const [statusFilter, setStatusFilter] = useState<string>('recruiting');
-  const { username } = useUserStore();
+  const { username } = useAppStore();
   const onFinish = (values: { name?: string }) => {
     const newTeam = {
       id: Math.random().toString(36).slice(2, 11),
-      name: values.name || `${useUserStore.getState().username}的队伍`,
+      name: values.name || `${username}的队伍`,
       visibility: visibilityMap.all,
       status: statusMap.recruiting,
       dungeonType: dungeonTypeMap.weekly,

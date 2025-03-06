@@ -1,4 +1,4 @@
-import { useUserStore } from '@/stores/userStore';
+import { useAppStore } from '@/stores';
 import { Button, Form, Input, Table, Tag, notification } from 'antd';
 import { useState } from 'react';
 
@@ -30,7 +30,7 @@ type GuildType = {
 export default function GuildPage() {
   const [form] = Form.useForm();
   const [guilds, setGuilds] = useState<GuildType[]>([]);
-  const { username } = useUserStore();
+  const { username } = useAppStore();
 
   const onFinish = (values: { name: string; slogan?: string }) => {
     const newGuild = {
