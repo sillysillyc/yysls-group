@@ -6,6 +6,7 @@ import yyslsIconJPG from '@/assets/images/app/yysls_icon_sm.jpg';
 // import { Header } from '@/components';
 
 import { Layout, Menu, MenuProps, theme } from 'antd';
+import classnames from 'classnames';
 import {
   AppstoreOutlined,
   BarChartOutlined,
@@ -86,44 +87,25 @@ function App() {
     //     <Outlet />
     //   </div>
     // </div>
-    <Layout hasSider>
+    <Layout hasSider className="app-container">
       <Sider collapsed={siderCollapsed} style={{ ...siderStyle, background: colorBgContainer }}>
         <div className="sider-top-area-container">
-          <div
-            style={{
-              height: '60px',
-              margin: '2px 0',
-              overflow: 'hidden',
-              width: '100%',
-              borderRadius: borderRadiusLG,
-              position: 'relative',
-            }}
-          >
+          <div className="sider-top-icon-container">
+            <img className={classnames(['sider-top-icon', 'sm', { show: siderCollapsed }])} src={yyslsIconJPG} />
             <img
-              style={{
-                position: 'absolute',
-                objectFit: 'contain',
-                width: '100%',
-                height: '100%',
-                transition: 'opacity 0.3s ease-in-out',
-                opacity: siderCollapsed ? 1 : 0,
-              }}
-              src={yyslsIconJPG}
-            />
-            <img
-              style={{
-                position: 'absolute',
-                objectFit: 'none',
-                width: '100%',
-                height: '100%',
-                transition: 'opacity 0.3s ease-in-out',
-                opacity: siderCollapsed ? 0 : 1,
-              }}
+              className={classnames(['sider-top-icon', 'lg', { show: !siderCollapsed }])}
               src={yyslsHorizontalLgPNG}
             />
           </div>
         </div>
-        <Menu mode="inline" defaultSelectedKeys={['4']} items={items} />
+        <Menu
+          mode="inline"
+          defaultSelectedKeys={['4']}
+          items={items}
+          style={{
+            height: 'calc(100% - 60px)',
+          }}
+        />
       </Sider>
       <Layout
         style={{
