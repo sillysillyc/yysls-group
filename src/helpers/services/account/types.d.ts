@@ -1,7 +1,8 @@
+export type Genders = 'male' | 'female';
 export interface IFetchRegisterParams {
   name: string;
   password: string;
-  gender: 'male' | 'female';
+  gender: Genders;
 }
 export interface IFetchRegisterData {}
 
@@ -24,7 +25,7 @@ export interface IUserInfo {
   /**
    * 账户性别
    */
-  gender: string;
+  gender: Genders;
 
   /**
    * 创建时间
