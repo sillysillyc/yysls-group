@@ -106,7 +106,7 @@ const TeamPage = () => {
           <Card title="创建新队伍">
             <Form form={form} onFinish={onFinish} layout="vertical">
               <Form.Item label="队伍名称" name="name">
-                <Input placeholder={`默认名称：${localStorage.getItem('username')}的队伍`} />
+                <Input placeholder={`默认名称：${username}的队伍`} />
               </Form.Item>
 
               <Form.Item label="副本类型" name="dungeonType" initialValue="weekly" rules={[{ required: true }]}>

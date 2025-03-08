@@ -1,6 +1,10 @@
 import { memo, useEffect } from 'react';
+
 import { Outlet, useNavigate } from 'react-router-dom';
 import { App as AntApp } from 'antd';
+
+import { handleStorage } from '@/helpers';
+import { localStorageKeysMap } from '@/helpers/constants';
 
 import './index.less';
 
@@ -8,7 +12,7 @@ const AppPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = window.localStorage.getItem('token');
+    const token = handleStorage.local.get(localStorageKeysMap.token);
     if (!token) {
       navigate('/login');
     } else {

@@ -1,4 +1,4 @@
-import { Suspense, useMemo, useState, useEffect, type CSSProperties, memo } from 'react';
+import { Suspense, useMemo, useState, type CSSProperties, memo } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 import yyslsHorizontalLgPNG from '@/assets/images/app/yysls_horizontal_lg.png';
@@ -7,7 +7,7 @@ import yyslsIconJPG from '@/assets/images/app/yysls_icon_sm.jpg';
 import { Layout, Menu, MenuProps, theme } from 'antd';
 import classnames from 'classnames';
 import { MenuFoldOutlined, MenuUnfoldOutlined, RobotOutlined, TeamOutlined } from '@ant-design/icons';
-import { PersonalCenter } from '@/components';
+import { HeaderRTTools } from '@/components';
 import './index.less';
 
 const { Sider, Content, Header } = Layout;
@@ -19,7 +19,7 @@ const siderStyle: CSSProperties = {
   insetInlineStart: 0,
   top: 0,
   bottom: 0,
-  scrollbarWidth: 'thin',
+  scrollbarWidth: 'none',
   scrollbarGutter: 'stable',
 };
 
@@ -40,6 +40,38 @@ const HubsPage = () => {
         icon: <TeamOutlined />,
         onClick: () => {
           navigate({ pathname: '/hubs/team' });
+        },
+      },
+      {
+        key: 'guild',
+        label: '百业',
+        icon: <RobotOutlined />,
+        onClick: () => {
+          navigate({ pathname: '/hubs/guild' });
+        },
+      },
+      {
+        key: 'guild',
+        label: '百业',
+        icon: <RobotOutlined />,
+        onClick: () => {
+          navigate({ pathname: '/hubs/guild' });
+        },
+      },
+      {
+        key: 'guild',
+        label: '百业',
+        icon: <RobotOutlined />,
+        onClick: () => {
+          navigate({ pathname: '/hubs/guild' });
+        },
+      },
+      {
+        key: 'guild',
+        label: '百业',
+        icon: <RobotOutlined />,
+        onClick: () => {
+          navigate({ pathname: '/hubs/guild' });
         },
       },
       {
@@ -83,7 +115,7 @@ const HubsPage = () => {
       <Layout style={{ background: colorBgContainer, borderRadius: borderRadiusLG }}>
         <Header>
           {menuFolderIcon}
-          <PersonalCenter />
+          <HeaderRTTools />
         </Header>
         <Content>
           <Suspense fallback={<div>加载中...</div>}>

@@ -1,12 +1,14 @@
 import { memo, useCallback } from 'react';
 
 import { Button, Form, Input } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 import { fetchLogin, IFetchLoginParams } from '@/helpers/services';
 import { useHandleError } from '@/hooks';
+import { handleStorage } from '@/helpers';
+import { localStorageKeysMap } from '@/helpers/constants';
 
 import './index.less';
-import { useNavigate } from 'react-router-dom';
 
 type FormValues = IFetchLoginParams;
 
@@ -21,7 +23,7 @@ export const LoginForm = memo(() => {
     async (values: FormValues) => {
       try {
         const { data } = await fetchLogin(values);
-        localStorage.setItem('token', data.token);
+        handleStorage.local.set(localStorageKeysMap.token, data.token);
         navigate('/hubs/team');
       } catch (error) {
         handleError(error);
