@@ -28,3 +28,22 @@ export const handleStorage = {
     },
   },
 };
+
+export const randomString = (len = 32) => {
+  let t = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
+  let a = t.length;
+  let str = '';
+  for (let i = 0; i < len; i++) {
+    str += t.charAt(Math.floor(Math.random() * a));
+  }
+  return str;
+};
+
+export const randomBase64Encode = (str: string) => randomString(5) + window.btoa(str);
+
+export const randomBase64Decode = (str: string) => {
+  if (str !== undefined) {
+    return decodeURI(window.atob(str.substring(5)));
+  }
+  return '';
+};

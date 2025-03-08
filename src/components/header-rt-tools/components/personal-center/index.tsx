@@ -2,27 +2,30 @@ import { memo, useCallback, useMemo } from 'react';
 
 import { UserOutlined } from '@ant-design/icons';
 import { Dropdown, DropdownProps } from 'antd';
-import { useHandleError } from '@/hooks';
+import { useNavigate } from 'react-router-dom';
 
-import './index.less';
 import { useAppStore } from '@/stores';
 import { UserInfoModal } from '../user-info-modal';
 import { localStorageKeysMap } from '@/helpers/constants';
 import { handleStorage } from '@/helpers';
 
+import './index.less';
+
 export const PersonalCenter = memo(() => {
+  const navigate = useNavigate();
   const { userInfo, setUserInfoModalOpen, userInfoModalOpen } = useAppStore();
 
   const onLogout = useCallback(async () => {
     handleStorage.local.remove(localStorageKeysMap.token);
-  }, []);
+    navigate('/login');
+  }, [navigate]);
 
   const dropdownMenu = useMemo(() => {
     return {
       items: [
         {
           key: 'personal-center',
-          label: '个人中心',
+          label: '个人信息',
           onClick: () => setUserInfoModalOpen({ open: true }),
         },
         {

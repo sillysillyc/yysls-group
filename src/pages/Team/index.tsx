@@ -40,16 +40,16 @@ const TeamPage = () => {
   const [teams, setTeams] = useState<TeamType[]>([]);
   const [visibilityFilter, setVisibilityFilter] = useState<string>(visibilityMap.all);
   const [statusFilter, setStatusFilter] = useState<string>(statusMap.all);
-  const { username } = useAppStore();
+  const { userInfo } = useAppStore();
   const onFinish = (values: { name?: string }) => {
     const newTeam = {
       id: Math.random().toString(36).slice(2, 11),
-      name: values.name || `${username}的队伍`,
+      name: values.name || `${userInfo?.name}的队伍`,
       visibility: visibilityMap.all,
       status: statusMap.recruiting,
       dungeonType: dungeonTypeMap.weekly,
-      members: [username || ''],
-      creator: username || 'NULL',
+      members: [userInfo?.name || ''],
+      creator: userInfo?.name || 'NULL',
     };
     setTeams([...teams, newTeam]);
     notification.success({ message: '队伍创建成功' });
@@ -78,7 +78,7 @@ const TeamPage = () => {
   }, [teams, statusFilter, visibilityFilter]);
 
   return (
-    <div style={{ padding: 24 }}>
+    <div>
       <div>
         <div style={{ display: 'flex', gap: 16, marginBottom: 24 }}>
           <Select
@@ -106,7 +106,7 @@ const TeamPage = () => {
           <Card title="创建新队伍">
             <Form form={form} onFinish={onFinish} layout="vertical">
               <Form.Item label="队伍名称" name="name">
-                <Input placeholder={`默认名称：${username}的队伍`} />
+                <Input placeholder={`默认名称：${userInfo?.name}的队伍`} />
               </Form.Item>
 
               <Form.Item label="副本类型" name="dungeonType" initialValue="weekly" rules={[{ required: true }]}>
