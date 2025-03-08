@@ -30,7 +30,8 @@ type GuildType = {
 const GuildPage = () => {
   const [form] = Form.useForm();
   const [guilds, setGuilds] = useState<GuildType[]>([]);
-  const { username } = useAppStore();
+  const { userInfo } = useAppStore();
+  const { name: userName } = userInfo || {};
 
   const onFinish = (values: { name: string; slogan?: string }) => {
     const newGuild = {
@@ -40,8 +41,8 @@ const GuildPage = () => {
       chairmanTitle: titleMaps.chairman,
       members: [
         {
-          id: username || '',
-          name: username || '',
+          id: userName || '',
+          name: userName || '',
           role: roleMaps.chairman,
           title: titleMaps.chairman,
         },
