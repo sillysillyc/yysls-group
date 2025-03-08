@@ -14,9 +14,9 @@ export default defineConfig(({ mode }) => {
       proxy: {
         // 正则表达式写法
         '^/yysls-group-api/.*': {
-          target: 'http://localhost:4399',
+          target: 'https://dnf.zhyf.site',
           changeOrigin: true,
-          // rewrite: (path) => path.replace(/^\/yysls-group-api/, ''),
+          rewrite: (path) => path.replace(/^\/yysls-group-api/, ''),
         },
       },
     },

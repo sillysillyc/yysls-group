@@ -1,0 +1,45 @@
+// @import './styles/reset.css';
+
+:root {
+}
+
+#root {
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+::-webkit-scrollbar {
+  /* display: ; */
+  /* width: 10px; */
+}
+::-webkit-scrollbar-track {
+  width: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+  width: 2px;
+}
+.fallback-spin {
+  --shadow-bg: rgba(0, 0, 0, 0.5);
+
+  border-radius: 8px;
+  position: absolute;
+  overflow: hidden;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  animation: rippleEffect 1s infinite ease-in-out;
+  @keyframes rippleEffect {
+    50% {
+      box-shadow: 0px 0px 10px 2px var(--shadow-bg);
+      background-color: var(--shadow-bg);
+    }
+  }
+  .fallback-indicator {
+    background-color: transparent;
+    width: 40px;
+    height: 40px;
+  }
+}

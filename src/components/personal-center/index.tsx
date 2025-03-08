@@ -5,7 +5,7 @@ import { Dropdown, DropdownProps } from 'antd';
 import { useHandleError } from '@/hooks';
 import { fetchLogout, fetchQueryUserInfo } from '@/helpers/services';
 
-export const UserInfo = memo(() => {
+export const PersonalCenter = memo(() => {
   const handleError = useHandleError();
   const onLogout = useCallback(async () => {
     try {
