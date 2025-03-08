@@ -2,16 +2,20 @@ import type { UserSliceInfo, UserState } from './types';
 
 const initialUserState: UserState = {
   username: null,
+  userInfo: null,
+  userInfoModalOpen: false,
 };
 
 export const createUserSlice = (set: any): UserSliceInfo => ({
   ...initialUserState,
   login: (name) => {
     // set({ username: name });
-    // localStorage.setItem('username', name);
   },
   logout: () => {
     set({ username: null });
-    localStorage.removeItem('username');
   },
+  setUserInfo: ({ userInfo }) => {
+    set({ userInfo });
+  },
+  setUserInfoModalOpen: ({ open }) => set({ userInfoModalOpen: open ?? false }),
 });

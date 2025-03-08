@@ -17,12 +17,7 @@ const router = createBrowserRouter(
       children: [
         {
           path: '/login',
-          element: false ? (
-            <Spin
-              className="fallback-spin"
-              indicator={<img src={yyslsIconJPG} style={{ width: '40px', height: '40px' }} />}
-            />
-          ) : (
+          element: (
             <Suspense
               name="login-suspense"
               fallback={
