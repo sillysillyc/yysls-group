@@ -1,0 +1,64 @@
+.hubs-container {
+  height: 100%;
+  overflow: hidden;
+  --top-area-height: 64px;
+  --top-area-pad-tb: 2px;
+  --top-area-pad-lr: 10px;
+
+  --top-icon-height: 60px;
+  --top-icon-pad: 6px;
+  .ant-layout-sider {
+    // padding: 0;
+    .sider-top-area-container {
+      height: var(--top-area-height);
+      padding: var(--top-area-pad-tb) var(--top-area-pad-lr);
+      background: rgba(255; 255; 255; 0.2);
+      .sider-top-icon-container {
+        height: var(--top-icon-height);
+        padding: var(--top-icon-pad) 0;
+        overflow: hidden;
+        width: 100%;
+        position: relative;
+        .sider-top-icon {
+          position: absolute;
+          width: 100%;
+          height: calc(var(--top-icon-height) - 2 * var(--top-icon-pad));
+          transition: opacity 0.3s ease-in-out;
+          opacity: 0;
+          border-radius: 4px;
+
+          &.show {
+            opacity: 1;
+          }
+          &.sm {
+            object-fit: contain;
+          }
+          &.lg {
+            object-fit: cover;
+          }
+        }
+      }
+    }
+    .ant-menu {
+      height: calc(100% - var(--top-area-height));
+      overflow: auto;
+    }
+  }
+  .ant-layout {
+    height: 100%;
+    overflow: hidden;
+    // padding-left: 10px;
+    .ant-layout-header {
+      padding: 0;
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      background: rgba(255; 255; 255);
+    }
+    .ant-layout-content {
+      margin: 24px 16px 0;
+      overflow: auto;
+      height: calc(100% - var(--top-area-height));
+    }
+  }
+}

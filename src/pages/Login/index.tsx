@@ -1,35 +1,46 @@
-import { Button, Form, Input, notification } from 'antd';
-import { useNavigate } from 'react-router-dom';
-import { useAppStore } from '@/stores';
+import { memo, useMemo } from 'react';
 
-type FieldType = {
-  username: string;
-};
+import { LoginForm, RegisterForm } from './components';
 
-export default function LoginPage() {
-  const [form] = Form.useForm();
-  const navigate = useNavigate();
-  const { login } = useAppStore();
+import { Tabs, theme } from 'antd';
 
-  const onFinish = (values: FieldType) => {
-    login(values.username);
-    notification.success({ message: '登录成功' });
-    navigate('/');
-  };
+import './index.less';
+
+const LoginPage = () => {
+  const { useToken } = theme;
+  const {
+    token: { colorBgContainer, borderRadius, paddingContentHorizontal },
+  } = useToken();
+
+  const tabsItems = useMemo(
+    () => [
+      { key: 'login', label: '登录', children: <LoginForm /> },
+      { key: 'register', label: '注册', children: <RegisterForm /> },
+    ],
+    []
+  );
 
   return (
-    <div style={{ maxWidth: 400, margin: '100px auto' }}>
-      <Form form={form} layout="vertical" onFinish={onFinish} autoComplete="off">
-        <Form.Item<FieldType> label="用户名称" name="username" rules={[{ required: true, message: '请输入您的名称' }]}>
-          <Input placeholder="请输入任意字符" />
-        </Form.Item>
-
-        <Form.Item>
-          <Button type="primary" htmlType="submit" block>
-            进入系统
-          </Button>
-        </Form.Item>
-      </Form>
+    <div className="login-container">
+      <video
+        className="login-bg"
+        src="https://yysls.fp.ps.netease.com/file/66e40968aeeb27f4de3d0a7aQvImN3JM05"
+        controls={false}
+        autoPlay
+        muted
+        loop
+      />
+      <div className="form-area">
+        <Tabs
+          items={tabsItems}
+          style={{
+            backgroundColor: colorBgContainer,
+            padding: paddingContentHorizontal,
+            borderRadius: borderRadius,
+          }}
+        />
+      </div>
     </div>
   );
-}
+};
+export default memo(LoginPage);

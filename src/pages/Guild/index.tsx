@@ -1,6 +1,6 @@
 import { useAppStore } from '@/stores';
 import { Button, Form, Input, Table, Tag, notification } from 'antd';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 
 const roleMaps = {
   chairman: 'chairman',
@@ -27,7 +27,7 @@ type GuildType = {
   }[];
 };
 
-export default function GuildPage() {
+const GuildPage = () => {
   const [form] = Form.useForm();
   const [guilds, setGuilds] = useState<GuildType[]>([]);
   const { username } = useAppStore();
@@ -98,4 +98,5 @@ export default function GuildPage() {
       <Table dataSource={guilds} columns={columns} rowKey="id" bordered />
     </div>
   );
-}
+};
+export default memo(GuildPage);

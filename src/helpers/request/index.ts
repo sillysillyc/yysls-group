@@ -2,12 +2,12 @@ import axios, { type AxiosInstance, type AxiosRequestConfig, type AxiosResponse 
 
 export interface InitOptions {}
 
-const currentApiVersion = 'v1';
+const backendApiPrefix = 'yysls/api';
 
 // 创建 axios 实例
 const createAxiosInstance = (options: InitOptions = {}): AxiosInstance => {
   const instance = axios.create({
-    baseURL: `/${API_PREFIX}/${currentApiVersion}`,
+    baseURL: `/${API_PREFIX}/${backendApiPrefix}`,
     timeout: 10000,
     headers: {
       'Content-Type': 'application/json',
@@ -32,9 +32,13 @@ const createAxiosInstance = (options: InitOptions = {}): AxiosInstance => {
   instance.interceptors.response.use(
     (response: AxiosResponse) => {
       // 直接返回数据部分
+      if (response.data.code !== '000000') {
+        return Promise.reject(response.data);
+      }
       return response.data;
     },
     (error) => {
+      console.log('error', error);
       // 统一错误处理
       const { response } = error;
       if (response) {
@@ -84,14 +88,14 @@ const request = {
     return axiosInstance.get(url, { params, ...config });
   },
 
-  post: <T = any>(options: { data?: any } & ReuqstOptions): Promise<T> => {
-    const { url, data, config } = options;
-    return axiosInstance.post(url, data, config);
+  post: <T = any>(options: { params?: any } & ReuqstOptions): Promise<T> => {
+    const { url, params, config } = options;
+    return axiosInstance.post(url, params, config);
   },
 
-  put: <T = any>(optinos: { data?: any } & ReuqstOptions): Promise<T> => {
-    const { url, data, config } = optinos;
-    return axiosInstance.put(url, data, config);
+  put: <T = any>(optinos: { params?: any } & ReuqstOptions): Promise<T> => {
+    const { url, params, config } = optinos;
+    return axiosInstance.put(url, params, config);
   },
 
   delete: <T = any>(options: ReuqstOptions): Promise<T> => {

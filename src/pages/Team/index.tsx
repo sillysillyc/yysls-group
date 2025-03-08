@@ -1,5 +1,5 @@
 import { Button, Card, Form, Input, Select, List, Tag, notification } from 'antd';
-import { useState } from 'react';
+import { memo, useMemo, useState } from 'react';
 import { useAppStore } from '@/stores';
 
 const dungeonTypeMap = {
@@ -17,6 +17,7 @@ const visibilityMap = {
 type Visibility = ValueOf<typeof visibilityMap>;
 
 const statusMap = {
+  all: 'all',
   recruiting: 'recruiting',
   fighting: 'fighting',
 } as const;
@@ -33,12 +34,12 @@ type TeamType = {
   creator: string;
 };
 
-export default function TeamPage() {
+const TeamPage = () => {
   const [form] = Form.useForm();
 
   const [teams, setTeams] = useState<TeamType[]>([]);
-  const [visibilityFilter, setVisibilityFilter] = useState<string>('all');
-  const [statusFilter, setStatusFilter] = useState<string>('recruiting');
+  const [visibilityFilter, setVisibilityFilter] = useState<string>(visibilityMap.all);
+  const [statusFilter, setStatusFilter] = useState<string>(statusMap.all);
   const { username } = useAppStore();
   const onFinish = (values: { name?: string }) => {
     const newTeam = {
@@ -48,63 +49,82 @@ export default function TeamPage() {
       status: statusMap.recruiting,
       dungeonType: dungeonTypeMap.weekly,
       members: [username || ''],
-      creator: username || '',
+      creator: username || 'NULL',
     };
     setTeams([...teams, newTeam]);
     notification.success({ message: '队伍创建成功' });
     form.resetFields();
   };
 
-  const filteredTeams = teams.filter(
-    (team) => (visibilityFilter === 'all' || team.visibility === visibilityFilter) && team.status === statusFilter
-  );
+  const filteredTeams = useMemo(() => {
+    return teams.filter((team) => {
+      const isAllowAllVisibility = visibilityFilter === visibilityMap.all;
+      const isAllowAllStatus = statusFilter === statusMap.all;
+
+      if (isAllowAllVisibility && isAllowAllStatus) {
+        return true;
+      }
+
+      if (!isAllowAllVisibility && isAllowAllStatus) {
+        return team.visibility === visibilityFilter;
+      }
+
+      if (isAllowAllVisibility && !isAllowAllStatus) {
+        return team.status === statusFilter;
+      }
+
+      return team.status === statusFilter && team.visibility === visibilityFilter;
+    });
+  }, [teams, statusFilter, visibilityFilter]);
 
   return (
     <div style={{ padding: 24 }}>
-      <div style={{ display: 'flex', gap: 16, marginBottom: 24 }}>
-        <Select
-          defaultValue="all"
-          style={{ width: 120 }}
-          onChange={(value) => setVisibilityFilter(value)}
-          options={[
-            { value: 'all', label: '全部' },
-            { value: 'guild', label: '百业' },
-          ]}
-        />
-        <Select
-          defaultValue="recruiting"
-          style={{ width: 120 }}
-          onChange={(value) => setStatusFilter(value)}
-          options={[
-            { value: 'recruiting', label: '召集中' },
-            { value: 'fighting', label: '攻坚中' },
-          ]}
-        />
+      <div>
+        <div style={{ display: 'flex', gap: 16, marginBottom: 24 }}>
+          <Select
+            value={visibilityFilter}
+            style={{ width: 120 }}
+            onChange={(value) => setVisibilityFilter(value)}
+            options={[
+              { value: 'all', label: '全部可见' },
+              { value: 'guild', label: '百业可见' },
+            ]}
+          />
+          <Select
+            value={statusFilter}
+            style={{ width: 120 }}
+            onChange={(value) => setStatusFilter(value)}
+            options={[
+              { value: 'all', label: '全部' },
+              { value: 'recruiting', label: '召集中' },
+              { value: 'fighting', label: '攻坚中' },
+            ]}
+          />
+        </div>
+
+        <div style={{ maxWidth: 800, marginBottom: 24 }}>
+          <Card title="创建新队伍">
+            <Form form={form} onFinish={onFinish} layout="vertical">
+              <Form.Item label="队伍名称" name="name">
+                <Input placeholder={`默认名称：${localStorage.getItem('username')}的队伍`} />
+              </Form.Item>
+
+              <Form.Item label="副本类型" name="dungeonType" initialValue="weekly" rules={[{ required: true }]}>
+                <Select>
+                  <Select.Option value="weekly">周本（最大10人）</Select.Option>
+                  <Select.Option value="trial">试剑（最大5人）</Select.Option>
+                </Select>
+              </Form.Item>
+
+              <Form.Item>
+                <Button type="primary" htmlType="submit">
+                  创建队伍
+                </Button>
+              </Form.Item>
+            </Form>
+          </Card>
+        </div>
       </div>
-
-      <div style={{ maxWidth: 800, marginBottom: 24 }}>
-        <Card title="创建新队伍">
-          <Form form={form} onFinish={onFinish} layout="vertical">
-            <Form.Item label="队伍名称" name="name">
-              <Input placeholder={`默认名称：${localStorage.getItem('username')}的队伍`} />
-            </Form.Item>
-
-            <Form.Item label="副本类型" name="dungeonType" initialValue="weekly" rules={[{ required: true }]}>
-              <Select>
-                <Select.Option value="weekly">周本（最大10人）</Select.Option>
-                <Select.Option value="trial">试剑（最大5人）</Select.Option>
-              </Select>
-            </Form.Item>
-
-            <Form.Item>
-              <Button type="primary" htmlType="submit">
-                创建队伍
-              </Button>
-            </Form.Item>
-          </Form>
-        </Card>
-      </div>
-
       <List
         grid={{ gutter: 16, column: 2 }}
         dataSource={filteredTeams}
@@ -118,6 +138,10 @@ export default function TeamPage() {
                 <span>创建者：{team.creator}</span>
                 <span>副本类型：{team.dungeonType === 'weekly' ? '周本' : '试剑'}</span>
                 <span>当前人数：{team.members.length}</span>
+                <div style={{ display: 'flex', justifyContent: 'flex-end', flexWrap: 'nowrap', columnGap: '8px' }}>
+                  <Button type="primary">申请</Button>
+                  <Button type="primary">申请</Button>
+                </div>
               </div>
             </Card>
           </List.Item>
@@ -125,4 +149,5 @@ export default function TeamPage() {
       />
     </div>
   );
-}
+};
+export default memo(TeamPage);
