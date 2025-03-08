@@ -1,3 +1,4 @@
 # Local environment variables
 node_modules/*
 output/*
+dist/*
