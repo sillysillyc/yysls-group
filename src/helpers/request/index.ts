@@ -23,7 +23,7 @@ const createAxiosInstance = (options: InitOptions = {}): AxiosInstance => {
       // 添加 token 到请求头
       const token = handleStorage.local.get(localStorageKeysMap.token);
       if (token && config.headers) {
-        config.headers.Authorization = `Bearer ${token}`;
+        config.headers.token = handleStorage.local.get(localStorageKeysMap.token);
       }
       return config;
     },
