@@ -1,4 +1,6 @@
 import axios, { type AxiosInstance, type AxiosRequestConfig, type AxiosResponse } from 'axios';
+import { handleStorage } from '../tools';
+import { localStorageKeysMap } from '../constants';
 
 export interface InitOptions {}
 
@@ -19,7 +21,7 @@ const createAxiosInstance = (options: InitOptions = {}): AxiosInstance => {
   instance.interceptors.request.use(
     (config) => {
       // 添加 token 到请求头
-      const token = localStorage.getItem('token');
+      const token = handleStorage.local.get(localStorageKeysMap.token);
       if (token && config.headers) {
         config.headers.Authorization = `Bearer ${token}`;
       }
