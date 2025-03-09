@@ -19,7 +19,7 @@ export const createUserSlice = (
 ): UserSliceInfo => ({
   ...initialUserState,
   setUserInfo: ({ userInfo }) => {
-    set({ userInfo });
+    set({ userInfo: { ...userInfo } });
   },
   setUserInfoModalOpen: ({ open }) => set({ userInfoModalOpen: open ?? false }),
   setLoginTabKey: ({ key }) => set({ loginTabKey: key }),
