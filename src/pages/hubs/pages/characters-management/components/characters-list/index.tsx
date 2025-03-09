@@ -10,7 +10,8 @@ import { GenderIcon } from '@/components';
 
 export const CharactersList = memo(() => {
   const handleError = useHandleError();
-  const { charactersList, setCharactersList, setCharactersOperInfo, setCharactersOperModalOpen } = useAppStore();
+  const { charactersList, setCharactersList, setCharactersOperInfo, setCharactersOperModalOpen, queryCharactersList } =
+    useAppStore();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -18,8 +19,7 @@ export const CharactersList = memo(() => {
     async (options?: IPaginationOptions) => {
       try {
         setIsLoading(true);
-        const result = await fetchQueryCharacterList(options);
-        setCharactersList({ list: result.data.characters ?? [] });
+        await queryCharactersList(options);
       } catch (error) {
         handleError(error);
       } finally {
@@ -29,19 +29,23 @@ export const CharactersList = memo(() => {
     [handleError, setCharactersList]
   );
 
-  const onDeleteCharacter = useCallback((character: ICharacterInfo) => {
-    Modal.confirm({
-      title: '确认删除？',
-      onOk: async () => {
-        try {
-          await fetchDeleteCharacter(character.characterId);
-          message.success(messages.characters.delete.success);
-        } catch (error) {
-          handleError(error);
-        }
-      },
-    });
-  }, []);
+  const onDeleteCharacter = useCallback(
+    (character: ICharacterInfo) => {
+      Modal.confirm({
+        title: '确认删除？',
+        onOk: async () => {
+          try {
+            await fetchDeleteCharacter(character.characterId);
+            message.success(messages.characters.delete.success);
+            onQueryCharacterList();
+          } catch (error) {
+            handleError(error);
+          }
+        },
+      });
+    },
+    [handleError, onQueryCharacterList]
+  );
 
   const onUpdateCharacter = useCallback(
     (character: ICharacterInfo) => {
@@ -66,7 +70,7 @@ export const CharactersList = memo(() => {
             title={
               <div style={{ display: 'flex', alignItems: 'center', columnGap: '8px' }}>
                 <span>{character.characterName}</span>
-                <Tag color={character.characterGender === genderMap.female ? 'blue' : 'red'}>
+                <Tag color={character.characterGender === genderMap.male ? 'blue' : 'red'}>
                   <GenderIcon gender={character.characterGender} />
                 </Tag>
               </div>
@@ -74,10 +78,9 @@ export const CharactersList = memo(() => {
           >
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               <span>职业：{charaterClassNameMap[character.characterRole]}</span>
-              <span>造诣：- </span>
-              <span>等级：- </span>
+              <span>造诣：{character.characterAttainments ?? '-'}</span>
+              <span>等级：{character.characterLevel ?? '-'}</span>
               <span>创建时间：{character.createTime}</span>
-
               <div style={{ display: 'flex', justifyContent: 'flex-end', flexWrap: 'nowrap', columnGap: '8px' }}>
                 <Button type="primary" onClick={() => onUpdateCharacter(character)}>
                   编辑

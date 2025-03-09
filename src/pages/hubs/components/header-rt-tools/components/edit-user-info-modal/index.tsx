@@ -63,12 +63,12 @@ export const EditUserInfoModal = memo((props: IEditUserInfoModalProps) => {
           <Input />
         </FormItem>
         <FormItem<FormValues> label="旧密码" name="oldPassword">
-          <Input type="password" />
+          <Input.Password />
         </FormItem>
         <FormItem<FormValues> label="新密码" name="newPassword">
-          <Input type="password" />
+          <Input.Password />
         </FormItem>
-        <FormItem<FormValues> label="性别" name="gender">
+        <FormItem<FormValues> label="性别" name="accountGender">
           <Radio.Group>
             <Radio value={genderMap.male}>
               <ManOutlined />
@@ -79,7 +79,9 @@ export const EditUserInfoModal = memo((props: IEditUserInfoModalProps) => {
           </Radio.Group>
         </FormItem>
         <FormItem<FormValues> style={{ textAlign: 'right' }}>
-          <Button loading={isLoading}>取消</Button>
+          <Button loading={isLoading} onClick={() => setEditUserInfoModalOpen({ open: false })}>
+            取消
+          </Button>
           <Button loading={isLoading} style={{ marginLeft: '8px' }} type="primary" htmlType="submit">
             确定
           </Button>

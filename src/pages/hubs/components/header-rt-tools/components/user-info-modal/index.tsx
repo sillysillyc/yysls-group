@@ -25,16 +25,16 @@ export const UserInfoModal = memo((props: IUserInfoModalProps) => {
     >
       <Form>
         <FormItem label="ID">
-          <div>{userInfo?.id}</div>
+          <div>{userInfo?.accountId}</div>
         </FormItem>
         <FormItem label="账户">
-          <div>{userInfo?.name}</div>
+          <div>{userInfo?.accountName}</div>
         </FormItem>
         <FormItem label="创建时间">
           <div>{userInfo?.createTime}</div>
         </FormItem>
         <FormItem label="性别">
-          <GenderIcon gender={userInfo?.gender} />
+          <GenderIcon gender={userInfo?.accountGender} />
         </FormItem>
       </Form>
     </Modal>
