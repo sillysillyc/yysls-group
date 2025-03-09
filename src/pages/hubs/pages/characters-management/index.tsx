@@ -1,16 +1,15 @@
 import { memo } from 'react';
 
-import { Modal, ModalProps, Table } from 'antd';
+import { CharactersList, CharactersOperModal, CharactersSearch } from './components';
 
 import './index.less';
-import { CharactersList } from './components';
 
-interface ICharactersManagementProps extends ModalProps {}
-
-const CharactersManagementPage = memo((props: ICharactersManagementProps) => {
+const CharactersManagementPage = memo(() => {
   return (
     <div className="characters-management-container">
+      <CharactersSearch />
       <CharactersList />
+      <CharactersOperModal />
     </div>
   );
 });
