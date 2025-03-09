@@ -13,11 +13,11 @@ declare interface Result<T> {
   code: string;
   msg: string;
   info: any;
-  data: T;
+  data: T & IPaginationData;
 }
 
 declare interface PResult<T = any> extends Omit<Result<T>, 'data'> {
-  data?: T;
+  data?: T & IPaginationData;
 }
 
 declare type Get<T, K, F> = K extends keyof T ? T[K] : F;
@@ -25,4 +25,13 @@ declare type Get<T, K, F> = K extends keyof T ? T[K] : F;
 declare interface IPaginationOptions {
   page?: number;
   pageSize?: number;
+}
+
+declare interface IPaginationData extends IPaginationOptions {
+  total?: Number;
+
+  /**
+   * 总页数
+   */
+  totalPages?: Number;
 }
