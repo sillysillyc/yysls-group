@@ -6,4 +6,5 @@ export type UserState = {
   userInfo: IUserInfo | null;
   userInfoModalOpen: boolean;
   loginTabKey: LoginTabKeys;
+  editUserInfoModalOpen: boolean;
 };

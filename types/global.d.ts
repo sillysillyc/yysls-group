@@ -19,3 +19,5 @@ declare interface Result<T> {
 declare interface PResult<T = any> extends Omit<Result<T>, 'data'> {
   data?: T;
 }
+
+declare type Get<T, K, F> = K extends keyof T ? T[K] : F;
