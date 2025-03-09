@@ -1,10 +1,9 @@
-import { memo, useMemo } from 'react';
+import { memo } from 'react';
 
 import { Form, Modal, type ModalProps } from 'antd';
-import { AndroidOutlined, ManOutlined, WomanOutlined } from '@ant-design/icons';
 
-import { genderMap } from '@/helpers/constants';
 import { useAppStore } from '@/stores';
+import { GenderIcon } from '@/components';
 
 interface IUserInfoModalProps extends ModalProps {}
 
@@ -14,17 +13,6 @@ export const UserInfoModal = memo((props: IUserInfoModalProps) => {
   const { ...restProps } = props;
 
   const { userInfo, setUserInfoModalOpen, userInfoModalOpen } = useAppStore();
-
-  const genderRenderer = useMemo(() => {
-    switch (userInfo?.gender) {
-      case genderMap.male:
-        return <ManOutlined />;
-      case genderMap.female:
-        return <WomanOutlined />;
-      default:
-        return <AndroidOutlined />;
-    }
-  }, [userInfo?.gender]);
 
   return (
     <Modal
@@ -46,7 +34,7 @@ export const UserInfoModal = memo((props: IUserInfoModalProps) => {
           <div>{userInfo?.createTime}</div>
         </FormItem>
         <FormItem label="性别">
-          <div>{genderRenderer}</div>
+          <GenderIcon gender={userInfo?.gender} />
         </FormItem>
       </Form>
     </Modal>
