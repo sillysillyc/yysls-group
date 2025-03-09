@@ -56,3 +56,11 @@ export interface IFetchEditUserInfoParams {
  */
   gender?: string;
 }
+
+export interface IFetchQueryUserInfoData {
+  accountId: number;
+  accountName: string;
+  accountGender: string;
+  createTime: string;
+  updateTime: string;
+}
