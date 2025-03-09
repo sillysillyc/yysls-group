@@ -100,9 +100,9 @@ const request = {
     return axiosInstance.put(url, params, config);
   },
 
-  delete: <T = any>(options: ReuqstOptions): Promise<T> => {
-    const { url, config } = options;
-    return axiosInstance.delete(url, config);
+  delete: <T = any>(options: ReuqstOptions & { params?: any }): Promise<T> => {
+    const { url, params, config } = options;
+    return axiosInstance.delete(url, { params, ...config });
   },
 
   // // 创建新实例的方法

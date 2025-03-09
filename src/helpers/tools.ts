@@ -4,6 +4,7 @@ import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 
 export const handleError = (error: any) => {
+  import.meta.env.MODE === 'development' && console.trace(error);
   message.error(error.message);
 };
 
@@ -42,7 +43,23 @@ export const randomString = (len = 32) => {
   return str;
 };
 
-export const randomBase64Encode = (str: string) => randomString(5) + window.btoa(str);
+export const randomBase64Encode = (str: string) => {
+  let encodedStr = randomString(5);
+  let needEncodeURIComponent = false;
+  try {
+    encodedStr += window.btoa(str);
+  } catch {
+    needEncodeURIComponent = true;
+  }
+  if (needEncodeURIComponent) {
+    try {
+      encodedStr += window.btoa(encodeURIComponent(str));
+    } catch (error) {
+      handleError(error);
+    }
+  }
+  return encodedStr;
+};
 
 export const randomBase64Decode = (str: string) => {
   if (str !== undefined) {

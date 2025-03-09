@@ -18,7 +18,7 @@ export const fetchLogin = async (params: IFetchLoginParams): Promise<Result<IFet
     const result = await request.post<Result<IFetchLoginData>>({ url: '/account/login', params });
     const {
       data: {
-        accountInfo: { createTime, updatedTime },
+        account: { createTime, updateTime },
       },
     } = result;
 
@@ -26,10 +26,10 @@ export const fetchLogin = async (params: IFetchLoginParams): Promise<Result<IFet
       ...result,
       data: {
         ...result.data,
-        accountInfo: {
-          ...result.data.accountInfo,
+        account: {
+          ...result.data.account,
           createTime: transformUTCDate(createTime),
-          updatedTime: transformUTCDate(updatedTime),
+          updatedTime: transformUTCDate(updateTime),
         },
       },
     });
@@ -40,8 +40,7 @@ export const fetchLogin = async (params: IFetchLoginParams): Promise<Result<IFet
 
 export const fetchQueryUserInfo = async (userId?: number): Promise<Result<IFetchQueryUserInfoData>> => {
   try {
-    const url = typeof userId === 'number' ? `/account/info/${userId}` : '/account/info';
-    const result = await request.get<Result<IFetchQueryUserInfoData>>({ url });
+    const result = await request.get<Result<IFetchQueryUserInfoData>>({ url: '/account/info', params: { userId } });
     return Promise.resolve({
       ...result,
       data: {

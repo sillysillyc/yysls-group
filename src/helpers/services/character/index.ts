@@ -6,6 +6,7 @@ import type {
   IFetchQueryCharacterListParams,
   IFetchUpdateCharacterParams,
   IFetchCreateCharacterData,
+  IFetchCreateCharacterParams,
 } from './types';
 
 export const fetchQueryCharacterList = async (params?: IFetchQueryCharacterListParams) => {
@@ -16,7 +17,7 @@ export const fetchQueryCharacterList = async (params?: IFetchQueryCharacterListP
       updateTime: transformUTCDate(c.updateTime),
       createTime: transformUTCDate(c.createTime),
     }));
-    return Promise.resolve({ ...result, data: { ...result.data, characters: [...cs, ...cs, ...cs, ...cs, ...cs] } });
+    return Promise.resolve({ ...result, data: { ...result.data, characters: [...cs] } });
   } catch (error) {
     return Promise.reject(error);
   }
@@ -25,8 +26,13 @@ export const fetchQueryCharacterList = async (params?: IFetchQueryCharacterListP
 export const fetchUpdateCharacter = async (params: IFetchUpdateCharacterParams) =>
   await request.put<PResult>({ url: '/character/update', params });
 
-export const fetchCreateCharacter = async (params: Omit<Required<IFetchUpdateCharacterParams>, 'characterId'>) =>
+export const fetchCreateCharacter = async (params: IFetchCreateCharacterParams) =>
   await request.post<Result<IFetchCreateCharacterData>>({ url: '/character/create', params });
 
 export const fetchDeleteCharacter = async (characterId: number) =>
-  await request.delete<PResult>({ url: `/character/delete/${characterId}` });
+  await request.delete<PResult>({
+    url: '/character/delete',
+    params: {
+      characterId,
+    },
+  });

@@ -1,31 +1,20 @@
 export type Genders = 'male' | 'female';
-export interface IFetchRegisterParams {
-  name: string;
-  password: string;
-  gender: Genders;
-}
-export interface IFetchRegisterData {}
-
-export interface IFetchLoginParams {
-  name: string;
-  password: string;
-}
 
 export interface IUserInfo {
   /**
    * 账户ID
    */
-  id: number;
+  accountId: number;
 
   /**
    * 账户名称
    */
-  name: string;
+  accountName: string;
 
   /**
    * 账户性别
    */
-  gender: Genders;
+  accountGender: Genders;
 
   /**
    * 创建时间
@@ -35,12 +24,24 @@ export interface IUserInfo {
   /**
    * 更新时间
    */
-  updatedTime: string;
+  updateTime: string;
+}
+
+export interface IFetchRegisterParams {
+  accountName: string;
+  password: string;
+  accountGender: Genders;
+}
+export interface IFetchRegisterData extends IUserInfo {}
+
+export interface IFetchLoginParams {
+  accountName: string;
+  password: string;
 }
 
 export interface IFetchLoginData {
   token: string;
-  accountInfo: IUserInfo;
+  account: IUserInfo;
 }
 
 export interface IFetchEditUserInfoParams {
@@ -51,16 +52,9 @@ export interface IFetchEditUserInfoParams {
   newPassword?: string;
 
   /**
- 性别(male/female)
- * 
- */
-  gender?: string;
+   *   性别(male/female)
+   */
+  accountGender?: Genders;
 }
 
-export interface IFetchQueryUserInfoData {
-  accountId: number;
-  accountName: string;
-  accountGender: string;
-  createTime: string;
-  updateTime: string;
-}
+export interface IFetchQueryUserInfoData extends IUserInfo {}

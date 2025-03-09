@@ -23,7 +23,15 @@ export interface ICharacterInfo {
   characterName: string;
 
   /**
-   * 职业类型 0-输出 1-治疗 2-承伤
+   * 职业类型
+   *
+   * 0-输出
+   *
+   * 1-治疗
+   *
+   * 2-承伤
+   *
+   * {@link CharacterClass}
    */
   characterRole: CharacterClass;
 
@@ -31,6 +39,16 @@ export interface ICharacterInfo {
    * 性别(male/female)
    */
   characterGender: Genders;
+
+  /**
+   * 角色等级
+   */
+  characterLevel: number;
+
+  /**
+   * 角色造诣
+   */
+  characterAttainments: number;
 
   /**
    * 角色创建时间
@@ -47,43 +65,17 @@ export interface IFetchQueryCharacterListData {
   characters: ICharacterInfo[];
 }
 
-export interface IFetchUpdateCharacterParams {
+export interface IFetchUpdateCharacterParams
+  extends Partial<Omit<ICharacterInfo, 'characterId' | 'createTime' | 'updateTime'>> {
   /**
    * 角色ID
    */
   characterId: number;
-
-  /**
-   * 角色名称
-   */
-  name?: string;
-
-  /**
-   * 角色性别
-   */
-  gender?: Genders;
-  /**
-   * 职业类型 0-输出 1-治疗 2-承伤(可选)
-   */
-  role?: CharacterClass;
 }
 
-export interface IFetchCreateCharacterData {
-  characterId: Number;
-
-  /**
-   * 角色名称
-   */
+export interface IFetchCreateCharacterParams
+  extends Omit<IFetchUpdateCharacterParams, 'characterId' | 'characterName'> {
   characterName: string;
-  /**
-   * 性别
-   */
-  characterGender: Genders;
-  /**
-   * 职业类型
-   */
-  characterRole: CharacterClass;
-
-  createTime: string;
-  updateTime: string;
 }
+
+export interface IFetchCreateCharacterData extends ICharacterInfo {}
