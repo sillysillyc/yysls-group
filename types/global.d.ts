@@ -21,3 +21,8 @@ declare interface PResult<T = any> extends Omit<Result<T>, 'data'> {
 }
 
 declare type Get<T, K, F> = K extends keyof T ? T[K] : F;
+
+declare interface IPaginationOptions {
+  page?: number;
+  pageSize?: number;
+}
