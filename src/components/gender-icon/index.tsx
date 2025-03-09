@@ -6,7 +6,7 @@ import { genderMap } from '@/helpers/constants';
 import { AndroidOutlined, ManOutlined, WomanOutlined } from '@ant-design/icons';
 
 interface IGenderIconProps {
-  gender: Genders;
+  gender?: Genders;
 }
 
 export const GenderIcon = memo((props: IGenderIconProps) => {
