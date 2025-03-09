@@ -8,6 +8,7 @@ import type { Genders } from './../account/types';
  * 2-承伤(可选)
  */
 export type CharacterClass = 0 | 1 | 2;
+
 export interface IFetchQueryCharacterListParams {
   page?: number;
   pageSize?: number;

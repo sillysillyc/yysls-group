@@ -6,7 +6,7 @@ import type {
   IFetchCreateCharacterData,
 } from './types';
 
-export const fetchQueryCharacterList = async (params: IFetchQueryCharacterListParams) =>
+export const fetchQueryCharacterList = async (params?: IFetchQueryCharacterListParams) =>
   await request.get<Result<IFetchQueryCharacterListData[]>>({ url: '/character/list', params });
 
 export const fetchUpdateCharacter = async (params: IFetchUpdateCharacterParams) =>
