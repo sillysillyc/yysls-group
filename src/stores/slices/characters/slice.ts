@@ -28,4 +28,7 @@ export const createCharactersStateSlice = (
   setCharactersOperInfo: (payload: CharactersState['charactersOperInfo']) => {
     set({ charactersOperInfo: payload ? { ...payload } : payload });
   },
+  setCharactersOperModalOpen: (payload: { open: CharactersState['charactersOperModalOpen'] }) => {
+    set({ charactersOperModalOpen: payload.open });
+  },
 });
