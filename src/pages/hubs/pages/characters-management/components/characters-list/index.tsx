@@ -2,7 +2,7 @@ import { memo, useCallback, useEffect, useState } from 'react';
 
 import { Card, List, Tag, Button, Modal, message } from 'antd';
 
-import { fetchQueryCharacterList, ICharacterInfo, fetchDeleteCharacter } from '@/helpers/services';
+import { ICharacterInfo, fetchDeleteCharacter } from '@/helpers/services';
 import { charaterClassNameMap, genderMap, messages } from '@/helpers/constants';
 import { useHandleError } from '@/hooks';
 import { useAppStore } from '@/stores';

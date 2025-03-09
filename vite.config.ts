@@ -18,10 +18,17 @@ export default defineConfig(({ mode }) => {
       port: Number(env.VITE_PORT) || 3000,
       proxy: {
         // 正则表达式写法
-        '^/yysls-group-api/.*': {
-          target: 'https://dnf.zhyf.site',
+        // pro
+        // '^/yysls-group-api/.*': {
+        //   target: 'https://dnf.zhyf.site',
+        //   changeOrigin: true,
+        //   rewrite: (path) => path.replace(/^\/yysls-group-api/, ''),
+        // },
+        // dev
+        '^/yysls-group-api/yysls/.*': {
+          target: 'http://127.0.0.1:3001',
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/yysls-group-api/, ''),
+          rewrite: (path) => path.replace(/^\/yysls-group-api\/yysls/, ''),
         },
       },
     },

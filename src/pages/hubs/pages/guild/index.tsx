@@ -31,7 +31,7 @@ const GuildPage = () => {
   const [form] = Form.useForm();
   const [guilds, setGuilds] = useState<GuildType[]>([]);
   const { userInfo } = useAppStore();
-  const { name: userName } = userInfo || {};
+  const { accountName: userName } = userInfo || {};
 
   const onFinish = (values: { name: string; slogan?: string }) => {
     const newGuild = {
