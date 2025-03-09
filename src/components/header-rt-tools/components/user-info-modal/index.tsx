@@ -3,17 +3,17 @@ import { memo, useMemo } from 'react';
 import { Form, Modal, type ModalProps } from 'antd';
 import { AndroidOutlined, ManOutlined, WomanOutlined } from '@ant-design/icons';
 
-import { IUserInfo } from '@/helpers/services';
 import { genderMap } from '@/helpers/constants';
+import { useAppStore } from '@/stores';
 
-interface IUserInfoModalProps extends ModalProps {
-  userInfo: IUserInfo | null;
-}
+interface IUserInfoModalProps extends ModalProps {}
 
 const { Item: FormItem } = Form;
 
 export const UserInfoModal = memo((props: IUserInfoModalProps) => {
-  const { open, userInfo, ...restProps } = props;
+  const { ...restProps } = props;
+
+  const { userInfo, setUserInfoModalOpen, userInfoModalOpen } = useAppStore();
 
   const genderRenderer = useMemo(() => {
     switch (userInfo?.gender) {
@@ -27,12 +27,19 @@ export const UserInfoModal = memo((props: IUserInfoModalProps) => {
   }, [userInfo?.gender]);
 
   return (
-    <Modal title="个人信息" centered width={800} open={open} {...restProps}>
+    <Modal
+      title="个人信息"
+      centered
+      width={800}
+      open={userInfoModalOpen}
+      onCancel={() => setUserInfoModalOpen({ open: false })}
+      {...restProps}
+    >
       <Form>
         <FormItem label="ID">
           <div>{userInfo?.id}</div>
         </FormItem>
-        <FormItem label="名称">
+        <FormItem label="账户">
           <div>{userInfo?.name}</div>
         </FormItem>
         <FormItem label="创建时间">
