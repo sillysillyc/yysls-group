@@ -1,19 +1,16 @@
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 
-import { Table, TableColumnType } from 'antd';
-import { AndroidOutlined, ManOutlined, WomanOutlined } from '@ant-design/icons';
+import { Card, List, Tag, Button, Modal, message } from 'antd';
 
-import { IFetchQueryCharacterListData, CharacterClass, Genders, fetchQueryCharacterList } from '@/helpers/services';
-import { charaterClassNameMap, genderMap } from '@/helpers/constants';
+import { fetchQueryCharacterList, ICharacterInfo, fetchDeleteCharacter } from '@/helpers/services';
+import { charaterClassNameMap, genderMap, messages } from '@/helpers/constants';
 import { useHandleError } from '@/hooks';
 import { useAppStore } from '@/stores';
+import { GenderIcon } from '@/components';
 
-interface ICharactersListProps {}
-type DataType = IFetchQueryCharacterListData;
-
-export const CharactersList = memo((props: ICharactersListProps) => {
+export const CharactersList = memo(() => {
   const handleError = useHandleError();
-  const { setCharactersList } = useAppStore();
+  const { charactersList, setCharactersList } = useAppStore();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -22,7 +19,7 @@ export const CharactersList = memo((props: ICharactersListProps) => {
       try {
         setIsLoading(true);
         const result = await fetchQueryCharacterList(options);
-        setCharactersList({ list: result.data ?? [] });
+        setCharactersList({ list: result.data.characters ?? [] });
       } catch (error) {
         handleError(error);
       } finally {
@@ -32,44 +29,56 @@ export const CharactersList = memo((props: ICharactersListProps) => {
     [handleError, setCharactersList]
   );
 
+  const onDeleteCharacter = useCallback((character: ICharacterInfo) => {
+    Modal.confirm({
+      title: '确认删除？',
+      onOk: async () => {
+        try {
+          await fetchDeleteCharacter(character.characterId);
+          message.success(messages.characters.delete.success);
+        } catch (error) {
+          handleError(error);
+        }
+      },
+    });
+  }, []);
+
   useEffect(() => {
     onQueryCharacterList();
   }, []);
 
-  const columns = useMemo(
-    () =>
-      [
-        {
-          title: '角色名称',
-          dataIndex: 'characterName',
-          key: 'characterName',
-        },
-        {
-          title: '角色职业',
-          dataIndex: 'characterRole',
-          key: 'characterRole',
-          render: (value: CharacterClass) => charaterClassNameMap[value],
-        },
-        {
-          title: '角色性别',
-          dataIndex: 'characterGender',
-          key: 'characterGender',
-          render(value: Genders) {
-            switch (value) {
-              case genderMap.male:
-                return <ManOutlined />;
-              case genderMap.female:
-                return <WomanOutlined />;
-              default:
-                return <AndroidOutlined />;
+  return (
+    <List
+      loading={isLoading}
+      grid={{ gutter: 16, column: 3 }}
+      dataSource={charactersList ?? []}
+      renderItem={(character) => (
+        <List.Item>
+          <Card
+            title={
+              <div style={{ display: 'flex', alignItems: 'center', columnGap: '8px' }}>
+                <span>{character.characterName}</span>
+                <Tag color={character.characterGender === genderMap.female ? 'blue' : 'red'}>
+                  <GenderIcon gender={character.characterGender} />
+                </Tag>
+              </div>
             }
-          },
-        },
-        { title: '创建时间', dataIndex: 'createTime', key: 'createTime' },
-        { title: '更新时间', dataIndex: 'updateTime', key: 'updateTime' },
-      ] as TableColumnType<DataType>[],
-    []
-  );
+          >
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <span>职业：{charaterClassNameMap[character.characterRole]}</span>
+              <span>造诣：- </span>
+              <span>等级：- </span>
+              <span>创建时间：{character.createTime}</span>
 
-  return <Table loading={isLoading} rowKey="characterId" columns={columns} />;
+              <div style={{ display: 'flex', justifyContent: 'flex-end', flexWrap: 'nowrap', columnGap: '8px' }}>
+                <Button danger onClick={() => onDeleteCharacter(character)}>
+                  删除
+                </Button>
+              </div>
+            </div>
+          </Card>
+        </List.Item>
+      )}
+    />
+  );
 });
