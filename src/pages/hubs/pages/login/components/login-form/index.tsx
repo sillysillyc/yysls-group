@@ -25,10 +25,10 @@ export const LoginForm = memo(() => {
     async (values: FormValues) => {
       try {
         const { data } = await fetchLogin({
-          name: values.name,
-          password: randomBase64Encode(encodeURIComponent(values.password)),
+          accountName: values.accountName,
+          password: randomBase64Encode(values.password),
         });
-        setUserInfo({ userInfo: data.accountInfo });
+        setUserInfo({ userInfo: data.account });
         handleStorage.local.set(localStorageKeysMap.token, data.token);
         navigate('/hubs/team');
       } catch (error) {
@@ -40,11 +40,11 @@ export const LoginForm = memo(() => {
 
   return (
     <Form className="login-form" form={form} layout="vertical" onFinish={onFinish} autoComplete="off">
-      <FormItem label="账号" name="name" rules={[{ required: true }]}>
+      <FormItem<FormValues> label="账号" name="accountName" rules={[{ required: true }]}>
         <Input placeholder="请输入任意字符" />
       </FormItem>
-      <FormItem label="密码" name="password" rules={[{ required: true }]}>
-        <Input placeholder="请输入任意字符" type="password" />
+      <FormItem<FormValues> label="密码" name="password" rules={[{ required: true }]}>
+        <Input.Password placeholder="请输入任意字符" />
       </FormItem>
       <FormItem>
         <Button type="primary" htmlType="submit" block>

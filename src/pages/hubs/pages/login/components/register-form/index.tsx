@@ -24,7 +24,7 @@ export const RegisterForm = memo(() => {
       try {
         await fetchRegister({
           ...values,
-          password: randomBase64Encode(encodeURIComponent(values.password)),
+          password: randomBase64Encode(values.password),
         });
         message.success('注册成功');
         form.resetFields();
@@ -38,13 +38,13 @@ export const RegisterForm = memo(() => {
 
   return (
     <Form className="login-form" form={form} layout="vertical" onFinish={onFinish} autoComplete="off">
-      <FormItem label="账号" name="name" rules={[{ required: true }]}>
+      <FormItem<FormValues> label="账号" name="accountName" rules={[{ required: true }]}>
         <Input placeholder="请输入任意字符" />
       </FormItem>
-      <FormItem label="密码" name="password" rules={[{ required: true }]}>
-        <Input placeholder="请输入任意字符" type="pasword" />
+      <FormItem<FormValues> label="密码" name="password" rules={[{ required: true }]}>
+        <Input.Password placeholder="请输入任意字符" type="pasword" />
       </FormItem>
-      <FormItem label="性别" name="gender">
+      <FormItem<FormValues> label="性别" name="accountGender">
         <Radio.Group>
           <Radio value="male">男</Radio>
           <Radio value="female">女</Radio>

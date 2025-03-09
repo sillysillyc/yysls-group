@@ -2,11 +2,11 @@ import { memo, useMemo } from 'react';
 
 import { LoginForm, RegisterForm } from './components';
 import { LoginTabKeys, loginTabKeys } from '@/stores/slices';
+import { useAppStore } from '@/stores';
 
 import { Tabs, theme } from 'antd';
 
 import './index.less';
-import { useAppStore } from '@/stores';
 
 const LoginPage = () => {
   const { useToken } = theme;
