@@ -1,4 +1,7 @@
 import { message } from 'antd';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 
 export const handleError = (error: any) => {
   message.error(error.message);
@@ -47,3 +50,6 @@ export const randomBase64Decode = (str: string) => {
   }
   return '';
 };
+
+export const transformUTCDate = (utcString: string, format = 'YYYY-MM-DD HH:mm:ss') =>
+  dayjs.utc(utcString).local().format(format);

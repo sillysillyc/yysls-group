@@ -7,7 +7,7 @@ export const charaterClassMap = {
 } satisfies Record<string, CharacterClass>;
 
 export const charaterClassNameMap = {
-  0: 'C',
-  2: 'T',
-  1: '奶',
+  0: '输出',
+  2: '防御',
+  1: '治疗',
 } satisfies Record<CharacterClass, string>;

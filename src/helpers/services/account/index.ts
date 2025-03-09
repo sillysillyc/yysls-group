@@ -1,6 +1,5 @@
 import request from '@/helpers/request';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
+import { transformUTCDate } from '@/helpers/tools';
 
 import type {
   IFetchEditUserInfoParams,
@@ -10,10 +9,6 @@ import type {
   IFetchRegisterParams,
   IFetchQueryUserInfoData,
 } from './types';
-
-dayjs.extend(utc);
-
-const transformUTCDate = (utcString: string) => dayjs.utc(utcString).local().format('YYYY-MM-DD HH:mm:ss');
 
 export const fetchRegister = async (params: IFetchRegisterParams) =>
   await request.post<Result<IFetchRegisterData>>({ url: '/account/register', params });
