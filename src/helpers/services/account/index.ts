@@ -2,7 +2,13 @@ import request from '@/helpers/request';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
-import type { IFetchLoginData, IFetchLoginParams, IFetchRegisterData, IFetchRegisterParams } from './types';
+import type {
+  IFetchEditUserInfoParams,
+  IFetchLoginData,
+  IFetchLoginParams,
+  IFetchRegisterData,
+  IFetchRegisterParams,
+} from './types';
 
 dayjs.extend(utc);
 
@@ -39,7 +45,8 @@ export const fetchQueryUserInfo = async () => await request.get({ url: '/account
 
 export const fetchQueryUserInfoList = async () => await request.get({ url: '/account/list' });
 
-export const fetchEditUserInfo = async () => await request.post({ url: '/account/edit' });
+export const fetchEditUserInfo = async (params: IFetchEditUserInfoParams) =>
+  await request.post<PResult>({ url: '/account/edit', params });
 
 export const fetchDeleteUser = async () => await request.delete({ url: '/account/delete' });
 // export const fetchDeleteUser = async () => await request.delete({ url: '/account/delete/:id' });

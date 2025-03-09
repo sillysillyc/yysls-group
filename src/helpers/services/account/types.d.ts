@@ -42,3 +42,17 @@ export interface IFetchLoginData {
   token: string;
   accountInfo: IUserInfo;
 }
+
+export interface IFetchEditUserInfoParams {
+  newName?: string;
+
+  oldPassword?: string;
+
+  newPassword?: string;
+
+  /**
+ 性别(male/female)
+ * 
+ */
+  gender?: string;
+}
