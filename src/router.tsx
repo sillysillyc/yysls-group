@@ -4,11 +4,12 @@ import { createBrowserRouter, NonIndexRouteObject, RouteObject } from 'react-rou
 import yyslsIconJPG from '@/assets/images/app/yysls_icon_sm.jpg';
 
 const App = lazy(() => import('./pages/app'));
-const Login = lazy(() => import('./pages/login'));
-const Guild = lazy(() => import('./pages/guild'));
-const Team = lazy(() => import('./pages/team'));
+
 const Hubs = lazy(() => import('./pages/hubs'));
-const CharactersManagement = lazy(() => import('./pages/characters-management'));
+const Guild = lazy(() => import('./pages/hubs/pages/guild'));
+const Login = lazy(() => import('./pages/hubs/pages/login'));
+const Team = lazy(() => import('./pages/hubs/pages/team'));
+const CharactersManagement = lazy(() => import('./pages/hubs/pages/characters-management'));
 
 type MergedRouteObject = Omit<NonIndexRouteObject, 'children'> & {
   hideOnMenu?: boolean;

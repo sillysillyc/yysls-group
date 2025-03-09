@@ -3,7 +3,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 
 import yyslsHorizontalLgPNG from '@/assets/images/app/yysls_horizontal_lg.png';
 import yyslsIconJPG from '@/assets/images/app/yysls_icon_sm.jpg';
-import { HeaderRTTools } from '@/components';
+import { HeaderRTTools } from './components';
 import { hubsRoute } from '@/router';
 
 import { Layout, Menu, MenuProps, theme } from 'antd';
