@@ -10,7 +10,7 @@ import { GenderIcon } from '@/components';
 
 export const CharactersList = memo(() => {
   const handleError = useHandleError();
-  const { charactersList, setCharactersList } = useAppStore();
+  const { charactersList, setCharactersList, setCharactersOperInfo, setCharactersOperModalOpen } = useAppStore();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -43,6 +43,14 @@ export const CharactersList = memo(() => {
     });
   }, []);
 
+  const onUpdateCharacter = useCallback(
+    (character: ICharacterInfo) => {
+      setCharactersOperInfo(character);
+      setCharactersOperModalOpen({ open: true });
+    },
+    [setCharactersOperInfo, setCharactersOperModalOpen]
+  );
+
   useEffect(() => {
     onQueryCharacterList();
   }, []);
@@ -71,6 +79,9 @@ export const CharactersList = memo(() => {
               <span>创建时间：{character.createTime}</span>
 
               <div style={{ display: 'flex', justifyContent: 'flex-end', flexWrap: 'nowrap', columnGap: '8px' }}>
+                <Button type="primary" onClick={() => onUpdateCharacter(character)}>
+                  编辑
+                </Button>
                 <Button danger onClick={() => onDeleteCharacter(character)}>
                   删除
                 </Button>
