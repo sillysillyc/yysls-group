@@ -1,13 +1,22 @@
-import { Suspense, useMemo, useState, type CSSProperties, memo } from 'react';
+import { Suspense, useMemo, useState, type CSSProperties, memo, ReactNode } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 import yyslsHorizontalLgPNG from '@/assets/images/app/yysls_horizontal_lg.png';
 import yyslsIconJPG from '@/assets/images/app/yysls_icon_sm.jpg';
+import { HeaderRTTools } from '@/components';
+import { hubsRoute } from '@/router';
 
 import { Layout, Menu, MenuProps, theme } from 'antd';
 import classnames from 'classnames';
-import { MenuFoldOutlined, MenuUnfoldOutlined, RobotOutlined, TeamOutlined } from '@ant-design/icons';
-import { HeaderRTTools } from '@/components';
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  RobotOutlined,
+  TeamOutlined,
+  UserSwitchOutlined,
+} from '@ant-design/icons';
+
+import { type MenuItemType } from 'antd/es/menu/interface';
 import './index.less';
 
 const { Sider, Content, Header } = Layout;
@@ -23,6 +32,14 @@ const siderStyle: CSSProperties = {
   scrollbarGutter: 'stable',
 };
 
+type RouteConfig = { icon: ReactNode; name: string };
+
+const routesConfigMap: Record<string, RouteConfig> = {
+  '/hubs/team': { icon: <TeamOutlined />, name: '组队大厅' },
+  '/hubs/guild': { icon: <RobotOutlined />, name: '百业大厅' },
+  '/hubs/characters-management': { icon: <UserSwitchOutlined />, name: '角色管理' },
+};
+
 const HubsPage = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -32,59 +49,19 @@ const HubsPage = () => {
 
   const [siderCollapsed, setSiderCollapsed] = useState(false);
 
-  const items = useMemo<MenuProps['items']>(
-    () => [
-      {
-        key: 'group',
-        label: '组队大厅',
-        icon: <TeamOutlined />,
-        onClick: () => {
-          navigate({ pathname: '/hubs/team' });
-        },
-      },
-      {
-        key: 'guild',
-        label: '百业',
-        icon: <RobotOutlined />,
-        onClick: () => {
-          navigate({ pathname: '/hubs/guild' });
-        },
-      },
-      {
-        key: 'guild',
-        label: '百业',
-        icon: <RobotOutlined />,
-        onClick: () => {
-          navigate({ pathname: '/hubs/guild' });
-        },
-      },
-      {
-        key: 'guild',
-        label: '百业',
-        icon: <RobotOutlined />,
-        onClick: () => {
-          navigate({ pathname: '/hubs/guild' });
-        },
-      },
-      {
-        key: 'guild',
-        label: '百业',
-        icon: <RobotOutlined />,
-        onClick: () => {
-          navigate({ pathname: '/hubs/guild' });
-        },
-      },
-      {
-        key: 'guild',
-        label: '百业',
-        icon: <RobotOutlined />,
-        onClick: () => {
-          navigate({ pathname: '/hubs/guild' });
-        },
-      },
-    ],
-    [navigate]
-  );
+  const items = useMemo<MenuProps['items']>(() => {
+    const menuItems: MenuItemType[] = [];
+    hubsRoute.children?.forEach((r) => {
+      if (!r.hideOnMenu) {
+        menuItems.push({
+          key: r.path,
+          label: routesConfigMap[r.path!].name,
+          icon: routesConfigMap[r.path!].icon,
+        } as MenuItemType);
+      }
+    });
+    return menuItems;
+  }, [navigate]);
 
   const menuFolderIcon = useMemo(() => {
     const onTriggerMenuCollapsed = () => setSiderCollapsed((prev) => !prev);
@@ -110,7 +87,14 @@ const HubsPage = () => {
             />
           </div>
         </div>
-        <Menu mode="inline" defaultSelectedKeys={['4']} items={items} />
+        <Menu
+          mode="inline"
+          items={items}
+          onSelect={(e) => {
+            navigate(e.key);
+            console.log(e);
+          }}
+        />
       </Sider>
       <Layout style={{ background: colorBgContainer, borderRadius: borderRadiusLG }}>
         <Header>
