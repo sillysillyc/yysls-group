@@ -5,4 +5,5 @@ export interface UserAction {
   setUserInfo: (payload: { userInfo: IUserInfo }) => void;
   setUserInfoModalOpen: (payload: { open: boolean }) => void;
   setLoginTabKey: (payload: { key: LoginTabKeys }) => void;
+  setEditUserInfoModalOpen: (payload: { open: boolean }) => void;
 }
