@@ -42,7 +42,7 @@ export const RegisterForm = memo(() => {
         <Input placeholder="请输入任意字符" />
       </FormItem>
       <FormItem<FormValues> label="密码" name="password" rules={[{ required: true }]}>
-        <Input.Password placeholder="请输入任意字符" type="pasword" />
+        <Input.Password placeholder="请输入任意字符" />
       </FormItem>
       <FormItem<FormValues> label="性别" name="accountGender">
         <Radio.Group>
