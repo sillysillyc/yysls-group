@@ -4,6 +4,7 @@ import { useAppStore } from '@/stores';
 
 const dungeonTypeMap = {
   weekly: 'weekly',
+  weeklyGuild: 'weekly-guild',
   trial: 'trial',
 };
 
@@ -112,6 +113,7 @@ const TeamPage = () => {
               <Form.Item label="副本类型" name="dungeonType" initialValue="weekly" rules={[{ required: true }]}>
                 <Select>
                   <Select.Option value="weekly">周本（最大10人）</Select.Option>
+                  <Select.Option value="weekly-guild">百业本（最大5人）</Select.Option>
                   <Select.Option value="trial">试剑（最大5人）</Select.Option>
                 </Select>
               </Form.Item>

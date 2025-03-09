@@ -8,7 +8,12 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd());
 
   return {
+    base: mode === 'development' ? '/' : `/${env.VITE_PUBLIC_PATH}`,
     plugins: [react()],
+    build: {
+      emptyOutDir: true, // 构建前清空输出目录
+      outDir: 'output', // 输出目录，默认就是 dist
+    },
     server: {
       port: Number(env.VITE_PORT) || 3000,
       proxy: {
